@@ -47,7 +47,7 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        gridLayoutManager = new GridLayoutManager(this, 4);
+        gridLayoutManager = new GridLayoutManager(this, 10);
 
         dividerItemDecoration = new DividerItemDecoration(mList.getContext(), linearLayoutManager.getOrientation());
 
@@ -77,9 +77,11 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
         switch (item.getItemId()) {
             case R.id.list_view:
                 mList.setLayoutManager(linearLayoutManager);
+                mAdapter.notifyDataSetChanged();
                 return true;
             case R.id.grid_view:
                 mList.setLayoutManager(gridLayoutManager);
+                mAdapter.notifyDataSetChanged();
                 return true;
             default:
                 return false;
@@ -92,10 +94,6 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
     }
 
     private void getPostData() {
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
-
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(postUrl, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -111,20 +109,18 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
                         postList.add(post);
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        progressDialog.dismiss();
                     }
                 }
+                mAdapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.e("Volley", error.toString());
-                    progressDialog.dismiss();
                 }
         });
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
         mAdapter.notifyDataSetChanged();
-        progressDialog.dismiss();
     }
 }

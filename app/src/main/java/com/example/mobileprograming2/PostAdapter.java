@@ -30,8 +30,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Post post = list.get(i);
         viewHolder.textTitle.setText(post.getTitle());
-        viewHolder.textId.setText(post.getId());
-        viewHolder.textUserId.setText(post.getId());
+        viewHolder.textId.setText(String.valueOf(post.getId()));
+        viewHolder.textUserId.setText(String.valueOf(post.getId()));
         viewHolder.textBody.setText(post.getBody());
     }
 
