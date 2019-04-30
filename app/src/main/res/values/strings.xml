@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">mobilePrograming2</string>
+    <string name="prj2">prj2</string>
+    <string name="dialogTitle">Names</string>
+    <string name="emadSalehi">Emad Salehi</string>
+    <string name="sinaBolouki">Sina Bolouki</string>
+    <string name="mohsenLarni">Mohsen Larni</string>
+    <string name="namesButton">Names</string>
+    <string name="list_view">List View</string>
+    <string name="grid_view">Grid View</string>
 </resources>

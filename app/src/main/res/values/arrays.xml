@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="names">
+        <item></item>
+        <item>@string/emadSalehi</item>
+        <item>@string/sinaBolouki</item>
+        <item>@string/mohsenLarni</item>
+    </array>
+</resources>
