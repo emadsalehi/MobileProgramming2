@@ -2,18 +2,21 @@ package com.example.mobileprograming2;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
-abstract public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickListener {
+public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickListener {
+
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        recyclerView = findViewById(R.id.recycler_view);
     }
 
     public void showDialogAction(View v) {
@@ -38,5 +41,10 @@ abstract public class MainActivity extends Activity implements PopupMenu.OnMenuI
             default:
                 return false;
         }
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }
