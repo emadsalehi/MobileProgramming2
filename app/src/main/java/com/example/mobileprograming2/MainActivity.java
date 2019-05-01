@@ -32,6 +32,7 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
     private List<Post> postList;
     private RecyclerView.Adapter mAdapter;
     private String postUrl = "https://jsonplaceholder.typicode.com/posts";
+    private int activityListItemSelected;
 
 
     @Override
@@ -46,7 +47,7 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        gridLayoutManager = new GridLayoutManager(this, 10);
+        gridLayoutManager = new GridLayoutManager(this, 2);
 
         dividerItemDecoration = new DividerItemDecoration(mList.getContext(), linearLayoutManager.getOrientation());
 
@@ -77,14 +78,12 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
     }
 
     public void showPopup(View v) {
+        //activityListItemSelected = listItemSelected;
         PopupMenu popupMenu = new PopupMenu(this, v);
         MenuInflater inflater = popupMenu.getMenuInflater();
         inflater.inflate(R.menu.view_menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(this);
         popupMenu.show();
-    }
-
-    public void showFragment(View v) {
-        Log.i(String.valueOf(v.getId()), "ID");
     }
 
     @Override

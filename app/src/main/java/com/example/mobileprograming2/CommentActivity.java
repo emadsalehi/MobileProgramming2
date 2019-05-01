@@ -1,6 +1,5 @@
 package com.example.mobileprograming2;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -35,10 +35,12 @@ public class CommentActivity extends FragmentActivity implements PopupMenu.OnMen
     private LinearLayoutManager linearLayoutManager;
     private GridLayoutManager gridLayoutManager;
     private DividerItemDecoration dividerItemDecoration;
-    private List<Comment> commentList;
+    private ArrayList<Comment> commentList;
     private RecyclerView.Adapter mAdapter;
     private String commentUrl = "https://jsonplaceholder.typicode.com/comments?postId=";
     private static final String post_ID = "";
+    private static final int comment_length = 0;
+    private String postID;
 
     public static void start(Context context, int postID) {
         Intent intent = new Intent(context, CommentActivity.class);
@@ -51,9 +53,10 @@ public class CommentActivity extends FragmentActivity implements PopupMenu.OnMen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = this.getIntent();
-        String gameId = intent.getStringExtra(post_ID);
-        commentUrl += gameId;
-        setContentView(R.layout.activity_main);
+        postID = intent.getStringExtra(post_ID);
+        commentUrl += postID;
+
+        setContentView(R.layout.activity_comment);
         mList = findViewById(R.id.recycler_view);
 
         commentList = new ArrayList<>();
@@ -62,7 +65,7 @@ public class CommentActivity extends FragmentActivity implements PopupMenu.OnMen
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        gridLayoutManager = new GridLayoutManager(this, 10);
+        gridLayoutManager = new GridLayoutManager(this, 2);
 
         dividerItemDecoration = new DividerItemDecoration(mList.getContext(), linearLayoutManager.getOrientation());
 
@@ -72,7 +75,8 @@ public class CommentActivity extends FragmentActivity implements PopupMenu.OnMen
         mList.setItemAnimator(new DefaultItemAnimator());
         mList.setAdapter(mAdapter);
 
-        getPostData();
+        getCommentData();
+
     }
 
     public void showDialogAction(View v) {
@@ -84,6 +88,7 @@ public class CommentActivity extends FragmentActivity implements PopupMenu.OnMen
         PopupMenu popupMenu = new PopupMenu(this, v);
         MenuInflater inflater = popupMenu.getMenuInflater();
         inflater.inflate(R.menu.view_menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(this);
         popupMenu.show();
     }
 
@@ -108,7 +113,8 @@ public class CommentActivity extends FragmentActivity implements PopupMenu.OnMen
 
     }
 
-    private void getPostData() {
+    private void getCommentData() {
+        final IntegerLengthWrapper length = new IntegerLengthWrapper();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(commentUrl, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -126,6 +132,8 @@ public class CommentActivity extends FragmentActivity implements PopupMenu.OnMen
                         e.printStackTrace();
                     }
                 }
+                length.setLength(commentList.size());
+                headerTextUpdater(length);
                 mAdapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
@@ -137,6 +145,13 @@ public class CommentActivity extends FragmentActivity implements PopupMenu.OnMen
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
         mAdapter.notifyDataSetChanged();
+    }
+
+    private void headerTextUpdater(IntegerLengthWrapper lengthWrapper) {
+        int length = lengthWrapper.getLength();
+        TextView headerText =findViewById(R.id.comment_header);
+        String header = "Post " + postID + "," + " " + length + " comments";
+        headerText.setText(header);
     }
 }
 
