@@ -57,6 +57,18 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
         mList.setAdapter(mAdapter);
 
         getPostData();
+        mList.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, mList ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        int id = postList.get(position).getId();
+                        CommentActivity.start(getApplicationContext(), id);
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        onItemClick(view, position);
+                    }
+                })
+        );
     }
 
     public void showDialogAction(View v) {
@@ -69,6 +81,10 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
         MenuInflater inflater = popupMenu.getMenuInflater();
         inflater.inflate(R.menu.view_menu, popupMenu.getMenu());
         popupMenu.show();
+    }
+
+    public void showFragment(View v) {
+        Log.i(String.valueOf(v.getId()), "ID");
     }
 
     @Override

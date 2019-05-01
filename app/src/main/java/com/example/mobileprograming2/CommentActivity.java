@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
@@ -28,7 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommentActivity extends Activity implements PopupMenu.OnMenuItemClickListener {
+public class CommentActivity extends FragmentActivity implements PopupMenu.OnMenuItemClickListener {
 
     private RecyclerView mList;
     private LinearLayoutManager linearLayoutManager;
@@ -41,6 +42,7 @@ public class CommentActivity extends Activity implements PopupMenu.OnMenuItemCli
 
     public static void start(Context context, int postID) {
         Intent intent = new Intent(context, CommentActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(post_ID, String.valueOf(postID));
         context.startActivity(intent);
     }
